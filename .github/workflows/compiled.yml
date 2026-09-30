@@ -1,0 +1,47 @@
+name: compiled
+
+on: pull_request
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compiled-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  compiled:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out the PR branch itself, not the merge commit, so we can push to it
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.head_ref }}
+
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - run: git clone --depth 1 https://github.com/rktjmp/lush.nvim "$RUNNER_TEMP/lush"
+
+      - run: make build LUSH="$RUNNER_TEMP/lush"
+
+      - name: Commit rebuilt theme
+        env:
+          IS_FORK: ${{ github.event.pull_request.head.repo.fork }}
+        run: |
+          git add lua/baitong/compiled
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          # Fork PRs get a read-only token, so ask the author to rebuild instead
+          if [ "$IS_FORK" = "true" ]; then
+            echo "::error::lua/baitong/compiled is stale, run make build and commit the result"
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: rebuild compiled theme"
+          git push

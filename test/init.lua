@@ -21,7 +21,8 @@ require("telescope").setup({})
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = { "*/baitong.nvim/lua/baitong/*.lua", "*/baitong.nvim/colors/*.lua" },
   callback = function()
-    vim.cmd.colorscheme("baitong")
+    dofile(root .. "/scripts/build.lua")
+    vim.cmd.colorscheme(vim.g.colors_name or "baitong")
   end,
 })
 
