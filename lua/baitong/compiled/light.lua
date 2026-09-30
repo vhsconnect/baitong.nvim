@@ -143,7 +143,7 @@ return {
       fg = "#a3179a"
     },
     ["@markup.quote"] = {
-      fg = "#5e8766",
+      fg = "#5a8362",
       italic = true
     },
     ["@markup.raw"] = {
@@ -239,11 +239,11 @@ return {
       link = "CursorLine"
     },
     Comment = {
-      fg = "#5e8766",
+      fg = "#5a8362",
       italic = true
     },
     Conceal = {
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     Conditional = {
       link = "Statement"
@@ -317,7 +317,7 @@ return {
       undercurl = true
     },
     DiagnosticUnnecessary = {
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     DiagnosticVirtualTextError = {
       bg = "#D6E4D3",
@@ -388,7 +388,7 @@ return {
     },
     Folded = {
       bg = "#DCEFDF",
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     Function = {
       fg = "#006d73"
@@ -409,7 +409,7 @@ return {
       fg = "#8f5b00"
     },
     GitSignsCurrentLineBlame = {
-      fg = "#5e8766",
+      fg = "#5a8362",
       italic = true
     },
     GitSignsDelete = {
@@ -453,7 +453,7 @@ return {
     },
     LspInlayHint = {
       bg = "#DCEFDF",
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     LspReferenceRead = {
       link = "LspReferenceText"
@@ -567,7 +567,7 @@ return {
     },
     SpecialComment = {
       bold = true,
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     SpecialKey = {
       link = "NonText"
@@ -597,7 +597,7 @@ return {
     },
     StatusLineNC = {
       bg = "#D9EDDD",
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     StorageClass = {
       link = "Statement"
@@ -614,7 +614,7 @@ return {
     },
     TabLine = {
       bg = "#D9EDDD",
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     TabLineFill = {
       bg = "#D9EDDD"
@@ -651,7 +651,7 @@ return {
     },
     TelescopePromptCounter = {
       bg = "#DCEFDF",
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     TelescopePromptNormal = {
       bg = "#DCEFDF",
@@ -722,7 +722,7 @@ return {
       fg = "#0b6b1f"
     },
     WinBarNC = {
-      fg = "#5e8766"
+      fg = "#5a8362"
     },
     WinSeparator = {
       fg = "#a3c4aa"
@@ -731,5 +731,5 @@ return {
       link = "Cursor"
     }
   },
-  terminal = { "#000000", "#c0302f", "#0e7a29", "#0e7a29", "#006d73", "#a3179a", "#1f63a8", "#3b3f3d", "#5e8766", "#c0302f", "#0b6b1f", "#8f5b00", "#006d73", "#ff00ff", "#006d73", "#3b3f3d" }
+  terminal = { "#000000", "#c0302f", "#0e7a29", "#0e7a29", "#006d73", "#a3179a", "#1f63a8", "#3b3f3d", "#5a8362", "#c0302f", "#0b6b1f", "#8f5b00", "#006d73", "#ff00ff", "#006d73", "#3b3f3d" }
 }
