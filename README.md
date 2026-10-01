@@ -6,6 +6,7 @@ A Neovim port of the [baitong](https://github.com/cyphbt/baitong-theme) Alacritt
 |---|---|
 | `baitong` | follows `'background'`, which Neovim sets from your terminal's background color at startup |
 | `baitong-dark` | always dark |
+| `baitong-hard` | always dark, but with a much darker background and green curly braces |
 | `baitong-light` | always light |
 
 `baitong-dark` and `baitong-light` set `'background'` when you switch to them and ignore later changes to it.
@@ -38,7 +39,7 @@ make check   # rebuild and fail if the committed output is stale (for CI)
 
 On pull requests, CI runs `make build` and pushes a rebuild commit to the branch if the output changed. PRs from forks can't be pushed to, so there it fails and asks for a rebuild instead.
 
-`LUSH` defaults to the copy that `test/init.lua` installs; override it with `make build LUSH=/path/to/lush.nvim`.
+`make build` vendors lush.nvim into `vendor/lush.nvim` (gitignored) on the first run, so no local setup is needed. To build against another lush checkout instead, override it with `make build LUSH=/path/to/lush.nvim`.
 
 To try changes:
 

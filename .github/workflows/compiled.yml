@@ -24,9 +24,7 @@ jobs:
           neovim: true
           version: stable
 
-      - run: git clone --depth 1 https://github.com/rktjmp/lush.nvim "$RUNNER_TEMP/lush"
-
-      - run: make build LUSH="$RUNNER_TEMP/lush"
+      - run: make build
 
       - name: Commit rebuilt theme
         env:

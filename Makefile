@@ -1,10 +1,15 @@
-LUSH ?= $(HOME)/.local/share/nvim/baitong-test/lush.nvim
+LUSH ?= vendor/lush.nvim
 
-NVIM = nvim --headless --clean --cmd "set rtp^=$(LUSH),."
+NVIM = nvim --headless --clean --cmd "set rtp^=$(CURDIR)/$(LUSH),$(CURDIR)"
 
-.PHONY: build check
+.PHONY: build check vendor
 
-build:
+vendor/lush.nvim:
+	git clone --depth 1 https://github.com/rktjmp/lush.nvim $@
+
+vendor: vendor/lush.nvim
+
+build: vendor
 	$(NVIM) -l scripts/build.lua
 
 check: build
