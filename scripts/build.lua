@@ -10,7 +10,10 @@ end
 
 local palettes = require("baitong.palette")
 
-for _, variant in ipairs({ "dark", "light" }) do
+local variants = vim.tbl_keys(palettes)
+table.sort(variants)
+
+for _, variant in ipairs(variants) do
   local p = palettes[variant]
   local compiled = {
     groups = lush.compile(require("baitong.theme")(p, variant)),
