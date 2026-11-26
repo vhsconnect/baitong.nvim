@@ -1,15 +1,57 @@
 local lush = require("lush")
 
+---@alias baitong.Variant "dark"|"light"|"hard"
+---@alias baitong.Style "classic"|"tritone"
+
 ---@param p table palette from baitong.palette
----@param variant "dark"|"light"|"hard"
-local function build(p, variant)
+---@param variant baitong.Variant
+---@param style baitong.Style
+local function syntax_colors(p, variant, style)
+    if style == "tritone" then
+        return {
+            constant = p.fg,
+            string = p.sky,
+            func = p.fg,
+            keyword = p.magenta,
+            type = p.magenta,
+            special = p.fg,
+            tag = p.magenta,
+            module = p.fg,
+            builtin = p.fg,
+            braces = variant == "hard" and p.green or p.fg,
+            regexp = p.sky,
+            url = p.sky,
+            link = p.fg,
+        }
+    end
+    return {
+        constant = p.red,
+        string = p.sky,
+        func = p.aqua,
+        keyword = p.magenta,
+        type = p.neutral,
+        special = p.amber,
+        tag = p.aqua,
+        module = p.neutral,
+        builtin = p.red,
+        -- Curly braces (@constructor) are green in hard, neutral elsewhere
+        braces = variant == "hard" and p.green or p.neutral,
+        regexp = p.amber,
+        url = p.aqua,
+        link = p.aqua,
+    }
+end
+
+---@param p table palette from baitong.palette
+---@param variant baitong.Variant
+---@param style? baitong.Style
+local function build(p, variant, style)
+    local s = syntax_colors(p, variant, style or "classic")
+
     local h = {}
     for name, hex in pairs(p) do
         h[name] = lush.hsl(hex)
     end
-
-    -- Curly braces (@constructor) are green in hard, neutral elsewhere
-    local braces = variant == "hard" and p.green or p.neutral
 
     local c = {
         sunken = variant ~= "light" and h.bg.da(35) or h.bg.da(5),
@@ -102,33 +144,33 @@ local function build(p, variant)
             Removed({ fg = p.red }),
 
             Comment({ fg = p.comment, gui = "italic" }),
-            Constant({ fg = p.red }),
-            String({ fg = p.sky }),
+            Constant({ fg = s.constant }),
+            String({ fg = s.string }),
             Character({ String }),
             Number({ Constant }),
             Boolean({ Constant }),
             Float({ Constant }),
             Identifier({ fg = p.fg }),
-            Function({ fg = p.aqua }),
-            Statement({ fg = p.magenta }),
+            Function({ fg = s.func }),
+            Statement({ fg = s.keyword }),
             Conditional({ Statement }),
             Repeat({ Statement }),
             Label({ Statement }),
             Operator({ fg = p.punct }),
             Keyword({ Statement }),
             Exception({ Statement }),
-            PreProc({ fg = p.magenta }),
+            PreProc({ fg = s.keyword }),
             Include({ PreProc }),
             Define({ PreProc }),
             Macro({ PreProc }),
             PreCondit({ PreProc }),
-            Type({ fg = p.neutral, gui = "bold" }),
+            Type({ fg = s.type, gui = "bold" }),
             StorageClass({ Statement }),
             Structure({ Type }),
             Typedef({ Type }),
-            Special({ fg = p.amber }),
+            Special({ fg = s.special }),
             SpecialChar({ Special }),
-            Tag({ fg = p.aqua }),
+            Tag({ fg = s.tag }),
             Delimiter({ fg = p.punct }),
             SpecialComment({ fg = p.comment, gui = "bold" }),
             Debug({ Special }),
@@ -161,30 +203,30 @@ local function build(p, variant)
             LspSignatureActiveParameter({ fg = p.magenta, gui = "bold,underline" }),
 
             sym("@variable")({ Identifier }),
-            sym("@variable.builtin")({ fg = p.red, gui = "italic" }),
+            sym("@variable.builtin")({ fg = s.builtin, gui = "italic" }),
             sym("@variable.parameter")({ fg = p.fg, gui = "italic" }),
             sym("@variable.member")({ fg = p.green }),
             sym("@property")({ sym("@variable.member") }),
             sym("@constant")({ Constant }),
             sym("@constant.builtin")({ Constant }),
             sym("@constant.macro")({ Macro }),
-            sym("@module")({ fg = p.neutral }),
+            sym("@module")({ fg = s.module }),
             sym("@label")({ Label }),
             sym("@string")({ String }),
             sym("@string.escape")({ SpecialChar }),
-            sym("@string.regexp")({ fg = p.amber }),
+            sym("@string.regexp")({ fg = s.regexp }),
             sym("@string.special")({ Special }),
-            sym("@string.special.url")({ fg = p.aqua, gui = "underline" }),
+            sym("@string.special.url")({ fg = s.url, gui = "underline" }),
             sym("@character")({ Character }),
             sym("@number")({ Number }),
             sym("@boolean")({ Boolean }),
             sym("@type")({ Type }),
-            sym("@type.builtin")({ fg = p.neutral, gui = "italic" }),
+            sym("@type.builtin")({ fg = s.type, gui = "italic" }),
             sym("@attribute")({ PreProc }),
             sym("@function")({ Function }),
-            sym("@function.builtin")({ fg = p.aqua, gui = "italic" }),
+            sym("@function.builtin")({ fg = s.func, gui = "italic" }),
             sym("@function.macro")({ Macro }),
-            sym("@constructor")({ fg = braces }),
+            sym("@constructor")({ fg = s.braces }),
             sym("@operator")({ Operator }),
             sym("@keyword")({ Keyword }),
             sym("@keyword.function")({ Keyword }),
@@ -201,7 +243,7 @@ local function build(p, variant)
             sym("@markup.italic")({ gui = "italic" }),
             sym("@markup.strikethrough")({ gui = "strikethrough" }),
             sym("@markup.underline")({ gui = "underline" }),
-            sym("@markup.link")({ fg = p.aqua }),
+            sym("@markup.link")({ fg = s.link }),
             sym("@markup.link.url")({ sym("@string.special.url") }),
             sym("@markup.raw")({ fg = p.sky }),
             sym("@markup.list")({ fg = p.magenta }),
@@ -267,4 +309,5 @@ if ... then
 end
 
 local variant = vim.o.background == "light" and "light" or "dark"
-return build(require("baitong.palette")[variant], variant)
+local style = (vim.g.colors_name or ""):match("tritone") and "tritone" or "classic"
+return build(require("baitong.palette")[variant], variant, style)

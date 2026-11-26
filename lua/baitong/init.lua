@@ -1,13 +1,17 @@
 local M = {}
 
----@param variant? "dark"|"light"|"hard" forces a variant; nil follows 'background'
-function M.load(variant)
+---@param variant? baitong.Variant forces a variant; nil follows 'background'
+---@param style? baitong.Style
+function M.load(variant, style)
+    style = style or "classic"
+    local prefix = style == "classic" and "" or style .. "-"
+
     if variant then
         -- Sync 'background' only for the dark/light variants; it rejects any
         -- other value (E474), and setting it during the reload Neovim does on a
         -- 'background' change makes Neovim drop the colorscheme
         if (variant == "dark" or variant == "light")
-            and vim.g.colors_name ~= "baitong-" .. variant then
+            and vim.g.colors_name ~= "baitong-" .. prefix .. variant then
             vim.g.colors_name = nil
             vim.o.background = variant
         end
@@ -15,7 +19,7 @@ function M.load(variant)
         variant = vim.o.background == "light" and "light" or "dark"
     end
 
-    local module = "baitong.compiled." .. variant
+    local module = "baitong.compiled." .. prefix .. variant
     package.loaded[module] = nil
     local compiled = require(module)
 
