@@ -8,8 +8,14 @@ A Neovim port of the [baitong](https://github.com/cyphbt/baitong-theme) Alacritt
 | `baitong-dark` | always dark |
 | `baitong-hard` | always dark, but with a much darker background and green curly braces |
 | `baitong-light` | always light |
+| `baitong-tritone` | tritone, follows `'background'` |
+| `baitong-tritone-dark` | tritone, always dark |
+| `baitong-tritone-hard` | tritone, hard |
+| `baitong-tritone-light` | tritone, always light |
 
-`baitong-dark` and `baitong-light` set `'background'` when you switch to them and ignore later changes to it.
+The tritone schemes reduce syntax to three colors: magenta for keywords and types, sky blue for strings, and green for everything else. The editor UI, diagnostics and git signs look the same as in the other schemes.
+
+The `-dark` and `-light` schemes set `'background'` when you switch to them and ignore later changes to it.
 
 Covers Treesitter, LSP semantic tokens, diagnostics, gitsigns and telescope.
 
@@ -47,4 +53,4 @@ To try changes:
 nvim -u test/init.lua lua/baitong/theme.lua
 ```
 
-`test/init.lua` is a throwaway config with lush, gitsigns and telescope. Saving a file in this repo rebuilds and reloads the theme. `<leader>b` toggles `'background'`, and `<leader>ff` / `<leader>fg` open telescope. For changes as you type, run `:Lushify` inside `lua/baitong/theme.lua`.
+`test/init.lua` is a throwaway config with lush, gitsigns and telescope. Saving a file in this repo rebuilds and reloads the theme. `<leader>b` toggles `'background'`, and `<leader>ff` / `<leader>fg` open telescope. For changes as you type, run `:Lushify` inside `lua/baitong/theme.lua`; it previews the tritone style when a `baitong-tritone*` scheme is active.
