@@ -2,7 +2,9 @@ LUSH ?= vendor/lush.nvim
 
 NVIM = nvim --headless --clean --cmd "set rtp^=$(CURDIR)/$(LUSH),$(CURDIR)"
 
-.PHONY: build check vendor
+OUT ?= ~/Pictures/baitong
+
+.PHONY: build check vendor screenshots
 
 vendor/lush.nvim:
 	git clone --depth 1 https://github.com/rktjmp/lush.nvim $@
@@ -14,3 +16,6 @@ build: vendor
 
 check: build
 	git diff --exit-code -- lua/baitong/compiled
+
+screenshots:
+	nvim --headless --clean -l scripts/screenshot.lua $(OUT)
