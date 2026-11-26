@@ -19,6 +19,14 @@ The `-dark` and `-light` schemes set `'background'` when you switch to them and 
 
 Covers Treesitter, LSP semantic tokens, diagnostics, gitsigns and telescope.
 
+## Screenshots
+
+| | Classic | Tritone |
+|---|---|---|
+| dark | <img src="https://raw.githubusercontent.com/vhsconnect/baitong.nvim/screenshots/baitong-dark-lua.png" alt="baitong-dark"> | <img src="https://raw.githubusercontent.com/vhsconnect/baitong.nvim/screenshots/baitong-tritone-dark-lua.png" alt="baitong-tritone-dark"> |
+| light | <img src="https://raw.githubusercontent.com/vhsconnect/baitong.nvim/screenshots/baitong-light-lua.png" alt="baitong-light"> | <img src="https://raw.githubusercontent.com/vhsconnect/baitong.nvim/screenshots/baitong-tritone-light-lua.png" alt="baitong-tritone-light"> |
+| hard | <img src="https://raw.githubusercontent.com/vhsconnect/baitong.nvim/screenshots/baitong-hard-lua.png" alt="baitong-hard"> | <img src="https://raw.githubusercontent.com/vhsconnect/baitong.nvim/screenshots/baitong-tritone-hard-lua.png" alt="baitong-tritone-hard"> |
+
 ## Install
 
 ```lua
@@ -41,7 +49,10 @@ Colors live in `lua/baitong/palette.lua` and highlight groups in `lua/baitong/th
 ```sh
 make build   # regenerate lua/baitong/compiled/
 make check   # rebuild and fail if the committed output is stale (for CI)
+make screenshots   # render each scheme over test/samples/sample.lua into ~/Pictures/baitong (override with OUT=dir; needs chromium)
 ```
+
+The README screenshots live on the orphan `screenshots` branch, so installing the plugin doesn't download them. To update them, run `make screenshots OUT=<a checkout of that branch>`, then commit and push that branch.
 
 On pull requests, CI runs `make build` and pushes a rebuild commit to the branch if the output changed. PRs from forks can't be pushed to, so there it fails and asks for a rebuild instead.
 
